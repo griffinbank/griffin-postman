@@ -1,0 +1,877 @@
+{
+	"info": {
+		"_postman_id": "20fa8844-50dc-4628-a7ca-daabadfe8233",
+		"name": "Griffin API",
+		"description": "## Griffin API Postman Collection\n\nThis is a postman collection covering the Griffin API. See [https://docs.griffin.sh/](https://docs.griffin.sh/) for more details.\n\n## Set your API key\n\nOnce you have your API key, set it as an [environment variable](https://learning.postman.com/docs/sending-requests/variables/) named `griffin-api-key`, within your workspace.\n\n### Making requests\n\nEach request in the Griffin collection has a [Postman test](https://learning.postman.com/docs/writing-scripts/test-scripts/) that runs on the response. This test will interrogate each response body and for every URL assign a corresponding [Postman environment variable](https://learning.postman.com/docs/sending-requests/variables/).\n\nAs an example, when making the `Index` request (in the `setup` folder), you'll see the response body includes an `api-key-url`, among others. You should also now see a Postman environment variable named `api-key-url` with the URL as the value. We lean on this to easily 'navigate' the API from the root rather than hardcode routes and interpolate resource IDs.\n\n## Using the Postman Collection\n\nWithin our collection you'll find three top-level folders: `Setup`, `Reference`, and `Guides`.\n\n### Setup\n\nOnce you have your API configured, the first thing you'll want to do is run the `Setup` folder. This make a series of API requests from the `index` route and populate a bunch of Postman environment variables that you'll need to do anything useful, e.g. your `organization-url`, `organization-corporations-url` etc.\n\n### Reference\n\nAs a companion to our [API reference documentation](https://docs.griffin.sh/api), here you'll find individual requests grouped by resource.\n\n### Guides\n\nCurrently we have only the `Verify a Company` guide. It includes the series of API calls described in our [Onboarding your Customers](https://docs.griffin.sh/docs/guides/onboarding-your-customers) guide.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16319651"
+	},
+	"item": [
+		{
+			"name": "Setup",
+			"item": [
+				{
+					"name": "Index",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/v0/",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"v0",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get API Key",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}{{api-key-url}}",
+							"host": [
+								"{{base-url}}{{api-key-url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}{{organization-url}}",
+							"host": [
+								"{{base-url}}{{organization-url}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reference",
+			"item": [
+				{
+					"name": "Identity",
+					"item": [
+						{
+							"name": "Corporation",
+							"item": [
+								{
+									"name": "Create corporation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"corporation-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"display-name\": \"{{$randomCompanyName}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"claim-registered-company\",\n            \"claim-data\": {\n                \"entity-name\": \"Acme Corp\",\n                \"corporation-type\": \"private-limited-company\",\n                \"entity-registration-number\": \"10241297\",\n                \"date-of-incorporation\": \"2000-01-01\",\n                \"building-number\": \"123\",\n                \"city\": \"Test City\",\n                \"street-name\": \"Test Street\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-corporations-url}}",
+											"host": [
+												"{{base-url}}{{organization-corporations-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List corporations",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"corporation-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-corporations-url}}",
+											"host": [
+												"{{base-url}}{{organization-corporations-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get corporation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"corporation-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base-url}}{{corporation-legal-person-url}}",
+											"host": [
+												"{{base-url}}{{corporation-legal-person-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Individual",
+							"item": [
+								{
+									"name": "Create individual",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.globals.set(\"given-name\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+													"pm.globals.set(\"surname\", pm.variables.replaceIn('{{$randomLastName}}'));",
+													"console.log(\"foo\", pm.variables.replaceIn('{{$randomDatePast'))",
+													"const date = new Date(pm.variables.replaceIn('{{$randomDatePast}}'))",
+													"pm.globals.set(\"date-of-birth\", date.toISOString().split(\"T\")[0]) // FIXME"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"individual-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"display-name\": \"{{given-name}} {{surname}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"claim-contact-details\",\n            \"claim-data\": {\n                \"email-address\": \"{{$randomExampleEmail}}\"\n            }\n        },\n        {\n            \"claim-type\": \"claim-residence\",\n            \"claim-data\": {\n                \"building-number\": \"{{$randomInt}}\",\n                \"street-name\": \"{{$randomStreetName}}\",\n                \"city\": \"{{$randomCity}}\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        },\n        {\n            \"claim-type\": \"claim-identity\",\n            \"claim-data\": {\n                \"date-of-birth\": \"{{date-of-birth}}\",\n                \"given-name\": \"{{given-name}}\",\n                \"surname\": \"{{surname}}\"\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-individuals-url}}",
+											"host": [
+												"{{base-url}}{{organization-individuals-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List individuals",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"individual-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-individuals-url}}",
+											"host": [
+												"{{base-url}}{{organization-individuals-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get individual",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"individual-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{individual-legal-person-url}}",
+											"host": [
+												"{{base-url}}{{individual-legal-person-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Claims",
+							"item": [
+								{
+									"name": "Claim company website",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"website-url\": \"https://example.org\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-company-website-url}}",
+											"host": [
+												"{{base-url}}{{claim-company-website-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim director",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"legal-person-url\": \"{{individual-legal-person-url}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-directors-url}}",
+											"host": [
+												"{{base-url}}{{claim-directors-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim registered company",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"entity-name\": \"Acme Corp\",\n    \"corporation-type\": \"private-limited-company\",\n    \"entity-registration-number\": \"10241297\",\n    \"date-of-incorporation\": \"2000-01-01\",\n    \"building-number\": \"123\",\n    \"city\": \"Test City\",\n    \"street-name\": \"Test Street\",\n    \"postal-code\": \"TE1 2ST\",\n    \"country-code\": \"GB\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-registered-company-url}}",
+											"host": [
+												"{{base-url}}{{claim-registered-company-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim ultimate beneficial owner",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"legal-person-url\": \"{{individual-legal-person-url}}\",\n    \"ownership-percent\": \"25\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-ultimate-beneficial-owners-url}}",
+											"host": [
+												"{{base-url}}{{claim-ultimate-beneficial-owners-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim contact details",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email-address\": \"{{$randomExampleEmail}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-contact-details-url}}",
+											"host": [
+												"{{base-url}}{{claim-contact-details-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim identity",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"date-of-birth\": \"{{date-of-birth}}\",\n    \"given-name\": \"{{given-name}}\",\n    \"surname\": \"{{surname}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-identity-url}}",
+											"host": [
+												"{{base-url}}{{claim-identity-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim residence",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"building-number\": \"{{$randomInt}}\",\n    \"street-name\": \"{{$randomStreetName}}\",\n    \"city\": \"{{$randomCity}}\",\n    \"postal-code\": \"TE1 2ST\",\n    \"country-code\": \"GB\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-residence-url}}",
+											"host": [
+												"{{base-url}}{{claim-residence-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List claims",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{legal-person-claims-url}}",
+											"host": [
+												"{{base-url}}{{legal-person-claims-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Verification",
+							"item": [
+								{
+									"name": "Create verification",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base-url}}{{corporation-verifications-url}}",
+											"host": [
+												"{{base-url}}{{corporation-verifications-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get verification",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{verification-url}}",
+											"host": [
+												"{{base-url}}{{verification-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create verification decision",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"decision-status\": \"accepted\",\n    \"decision-notes\": \"The results indicate this customer is within our risk threshold.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{verification-decisions-url}}",
+											"host": [
+												"{{base-url}}{{verification-decisions-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Guides",
+			"item": [
+				{
+					"name": "Onboard your customers",
+					"item": [
+						{
+							"name": "Verify",
+							"item": [
+								{
+									"name": "Create Individual",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"individual-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"given-name\", pm.variables.replaceIn(\"{{$randomFirstName}}\"))",
+													"pm.environment.set(\"surname\", pm.variables.replaceIn(\"{{$randomLastName}}\"))",
+													"",
+													"const randomTime = new Date(Date.parse(pm.variables.replaceIn(\"{{$randomDatePast}}\")));",
+													"const date = randomTime.toISOString().split(\"T\")[0];",
+													"pm.environment.set(\"date-of-birth\", date);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"display-name\": \"{{given-name}} {{surname}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"contact-details\",\n            \"claim-data\": {\n                \"email-address\": \"{{$randomExampleEmail}}\"\n            }\n        },\n        {\n            \"claim-type\": \"individual-residence\",\n            \"claim-data\": {\n                \"building-number\": \"{{$randomInt}}\",\n                \"street-name\": \"{{$randomStreetName}}\",\n                \"city\": \"{{$randomCity}}\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        },\n        {\n            \"claim-type\": \"individual-identity\",\n            \"claim-data\": {\n                \"date-of-birth\": \"{{date-of-birth}}\",\n                \"given-name\": \"{{given-name}}\",\n                \"surname\": \"{{surname}}\"\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-individuals-url}}",
+											"host": [
+												"{{base-url}}{{organization-individuals-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Corporation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"corporation-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"display-name\": \"{{$randomCompanyName}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"uk-company-register\",\n            \"claim-data\": {\n                \"entity-name\": \"Acme Corp\",\n                \"corporation-type\": \"private-limited-company\",\n                \"entity-registration-number\": \"10241297\",\n                \"date-of-incorporation\": \"2000-01-01\",\n                \"building-number\": \"123\",\n                \"city\": \"Test City\",\n                \"street-name\": \"Test Street\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        },\n        {\n            \"claim-type\": \"director\",\n            \"claim-data\": {\n                \"legal-person-url\": \"{{individual-legal-person-url}}\"\n            }\n        },\n        {\n            \"claim-type\": \"ultimate-beneficial-owner\",\n            \"claim-data\": {\n                \"legal-person-url\": \"{{individual-legal-person-url}}\",\n                \"ownership-percent\": \"25\"\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-corporations-url}}",
+											"host": [
+												"{{base-url}}{{organization-corporations-url}}"
+											]
+										},
+										"description": "Create an organization with one `director` (the individual legal person that was created in the previous step)."
+									},
+									"response": []
+								},
+								{
+									"name": "Create Verification",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{base-url}}{{corporation-verifications-url}}",
+											"host": [
+												"{{base-url}}{{corporation-verifications-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Poll verification",
+							"item": [
+								{
+									"name": "Get Verification",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{verification-url}}",
+											"host": [
+												"{{base-url}}{{verification-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create decision",
+							"item": [
+								{
+									"name": "Create Verification Decision",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"decision-status\": \"accepted\",\n    \"decision-notes\": \"The results indicate this customer is within our risk threshold.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{verification-decisions-url}}",
+											"host": [
+												"{{base-url}}{{verification-decisions-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Verification",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{verification-url}}",
+											"host": [
+												"{{base-url}}{{verification-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "GriffinAPIKey {{griffin-api-key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"/* ",
+					" * On successful response, parse the body and set an environment variable for every key that ends with \"-url\".",
+					" * If response body is a collection, just look at the last object.",
+					" */",
+					"",
+					"function process(thing) {",
+					"    if (Array.isArray(thing)) {",
+					"        process(thing[thing.length - 1]);",
+					"    } else if (typeof thing === \"object\") {",
+					"        Object.entries(thing).forEach(function([k, v]) {",
+					"            if (k.endsWith(\"-url\")) {",
+					"                pm.environment.set(k, v);",
+					"            } else {",
+					"                process(v);",
+					"            }",
+					"        })",
+					"    }",
+					"}",
+					"",
+					"if (pm.response.code >= 200 && pm.response.code < 300) {",
+					"    try {",
+					"        process(pm.response.json());",
+					"    } catch (e) {",
+					"        console.error(e);",
+					"    }",
+					"    ",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "https://api.beta.griffin.sh",
+			"type": "string"
+		}
+	]
+}
