@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "20fa8844-50dc-4628-a7ca-daabadfe8233",
+		"_postman_id": "e189874e-c21f-416c-a6fc-844ed0b48d7d",
 		"name": "Griffin API",
 		"description": "## Griffin API Postman Collection\n\nThis is a postman collection covering the Griffin API. See [https://docs.griffin.sh/](https://docs.griffin.sh/) for more details.\n\n## Set your API key\n\nOnce you have your API key, set it as an [environment variable](https://learning.postman.com/docs/sending-requests/variables/) named `griffin-api-key`, within your workspace.\n\n### Making requests\n\nEach request in the Griffin collection has a [Postman test](https://learning.postman.com/docs/writing-scripts/test-scripts/) that runs on the response. This test will interrogate each response body and for every URL assign a corresponding [Postman environment variable](https://learning.postman.com/docs/sending-requests/variables/).\n\nAs an example, when making the `Index` request (in the `setup` folder), you'll see the response body includes an `api-key-url`, among others. You should also now see a Postman environment variable named `api-key-url` with the URL as the value. We lean on this to easily 'navigate' the API from the root rather than hardcode routes and interpolate resource IDs.\n\n## Using the Postman Collection\n\nWithin our collection you'll find three top-level folders: `Setup`, `Reference`, and `Guides`.\n\n### Setup\n\nOnce you have your API configured, the first thing you'll want to do is run the `Setup` folder. This make a series of API requests from the `index` route and populate a bunch of Postman environment variables that you'll need to do anything useful, e.g. your `organization-url`, `organization-corporations-url` etc.\n\n### Reference\n\nAs a companion to our [API reference documentation](https://docs.griffin.sh/api), here you'll find individual requests grouped by resource.\n\n### Guides\n\nCurrently we have only the `Verify a Company` guide. It includes the series of API calls described in our [Onboarding your Customers](https://docs.griffin.sh/docs/guides/onboarding-your-customers) guide.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -191,6 +191,29 @@
 											"raw": "{{base-url}}{{corporation-legal-person-url}}",
 											"host": [
 												"{{base-url}}{{corporation-legal-person-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create decision",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"verification-url\": \"{{verification-url}}\",\n    \"decision-outcome\": \"accepted\",\n    \"decision-notes\": \"The results indicate this customer is within our risk threshold.\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{legal-person-decisions-url}}",
+											"host": [
+												"{{base-url}}{{legal-person-decisions-url}}"
 											]
 										}
 									},
@@ -578,29 +601,6 @@
 										}
 									},
 									"response": []
-								},
-								{
-									"name": "Create verification decision",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"decision-status\": \"accepted\",\n    \"decision-notes\": \"The results indicate this customer is within our risk threshold.\"\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{base-url}}{{verification-decisions-url}}",
-											"host": [
-												"{{base-url}}{{verification-decisions-url}}"
-											]
-										}
-									},
-									"response": []
 								}
 							]
 						}
@@ -717,7 +717,7 @@
 							]
 						},
 						{
-							"name": "Poll verification",
+							"name": "Poll for status updates",
 							"item": [
 								{
 									"name": "Get Verification",
@@ -740,6 +740,20 @@
 											"raw": "{{base-url}}{{verification-url}}",
 											"host": [
 												"{{base-url}}{{verification-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Corporation",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base-url}}{{corporation-legal-person-url}}",
+											"host": [
+												"{{base-url}}{{corporation-legal-person-url}}"
 											]
 										}
 									},
@@ -751,13 +765,13 @@
 							"name": "Create decision",
 							"item": [
 								{
-									"name": "Create Verification Decision",
+									"name": "Create Legal Person Decision",
 									"request": {
 										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"decision-status\": \"accepted\",\n    \"decision-notes\": \"The results indicate this customer is within our risk threshold.\"\n}",
+											"raw": "{\n    \"verification-url\": \"{{verification-url}}\",\n    \"decision-outcome\": \"accepted\",\n    \"decision-notes\": \"The results indicate this customer is within our risk threshold.\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -765,35 +779,23 @@
 											}
 										},
 										"url": {
-											"raw": "{{base-url}}{{verification-decisions-url}}",
+											"raw": "{{base-url}}{{legal-person-decisions-url}}",
 											"host": [
-												"{{base-url}}{{verification-decisions-url}}"
+												"{{base-url}}{{legal-person-decisions-url}}"
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "Get Verification",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
+									"name": "Get Corporation",
 									"request": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
-											"raw": "{{base-url}}{{verification-url}}",
+											"raw": "{{base-url}}{{corporation-legal-person-url}}",
 											"host": [
-												"{{base-url}}{{verification-url}}"
+												"{{base-url}}{{corporation-legal-person-url}}"
 											]
 										}
 									},
