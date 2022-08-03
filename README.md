@@ -12,6 +12,8 @@ This is a postman collection covering the Griffin API. See https://docs.griffin.
 
 In your Postman workspace, click `Import`, then you can choose to either download our [collection JSON file](./postman_collection.json) and select it as a file, or copy its contents and import as 'raw text'.
 
+You can also import using the [direct link](https://raw.githubusercontent.com/griffinbank/griffin-postman/main/postman_collection.json) to the collection.
+
 ## Set your API key
 
 Once you have your API key, set it as an [environment variable](https://learning.postman.com/docs/sending-requests/variables/) named `griffin-api-key`, within your workspace.
