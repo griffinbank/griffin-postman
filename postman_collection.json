@@ -95,7 +95,7 @@
 			"name": "Reference",
 			"item": [
 				{
-					"name": "Identity",
+					"name": "Verify",
 					"item": [
 						{
 							"name": "Corporation",
@@ -603,6 +603,39 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "Workflow",
+							"item": [
+								{
+									"name": "Get organization workflows",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base-url}}{{organization-workflows-url}}",
+											"host": [
+												"{{base-url}}{{organization-workflows-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get workflow",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base-url}}{{workflow-url}}",
+											"host": [
+												"{{base-url}}{{workflow-url}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
@@ -705,6 +738,15 @@
 									"request": {
 										"method": "POST",
 										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"workflow-url\": {{workflow-url}}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
 											"raw": "{{base-url}}{{corporation-verifications-url}}",
 											"host": [
