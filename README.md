@@ -2,9 +2,7 @@
 
 ⛔️ DEPRECATED ⛔️
 
-This repository is no longer the source of truth for our public postman collection. Please update the the collection directly on [postman](https://griffin-bank.postman.co)
-
-> If you need an invite to the Griffin postman team please ask in the #tech slack channel.
+This repository is no longer the source of truth for our public postman collection. Please see the collection directly on [postman](https://www.postman.com/griffin-bank/workspace/griffin-api/overview)
 
 ## Getting started
 
