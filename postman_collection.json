@@ -118,7 +118,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"display-name\": \"{{$randomCompanyName}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"claim-registered-company\",\n            \"claim-data\": {\n                \"entity-name\": \"Acme Corp\",\n                \"corporation-type\": \"private-limited-company\",\n                \"entity-registration-number\": \"10241297\",\n                \"date-of-incorporation\": \"2000-01-01\",\n                \"building-number\": \"123\",\n                \"city\": \"Test City\",\n                \"street-name\": \"Test Street\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        }\n    ]\n}",
+											"raw": "{\n    \"display-name\": \"{{$randomCompanyName}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"uk-company-register\",\n            \"claim-data\": {\n                \"entity-name\": \"Acme Corp\",\n                \"corporation-type\": \"private-limited-company\",\n                \"entity-registration-number\": \"10241297\",\n                \"date-of-incorporation\": \"2000-01-01\",\n                \"building-number\": \"123\",\n                \"city\": \"Test City\",\n                \"street-name\": \"Test Street\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        }\n    ]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -255,7 +255,54 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"display-name\": \"{{given-name}} {{surname}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"claim-contact-details\",\n            \"claim-data\": {\n                \"email-address\": \"{{$randomExampleEmail}}\"\n            }\n        },\n        {\n            \"claim-type\": \"claim-residence\",\n            \"claim-data\": {\n                \"building-number\": \"{{$randomInt}}\",\n                \"street-name\": \"{{$randomStreetName}}\",\n                \"city\": \"{{$randomCity}}\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        },\n        {\n            \"claim-type\": \"claim-identity\",\n            \"claim-data\": {\n                \"date-of-birth\": \"{{date-of-birth}}\",\n                \"given-name\": \"{{given-name}}\",\n                \"surname\": \"{{surname}}\"\n            }\n        }\n    ]\n}",
+											"raw": "{\n    \"display-name\": \"{{given-name}} {{surname}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"contact-details\",\n            \"claim-data\": {\n                \"email-address\": \"{{$randomExampleEmail}}\"\n            }\n        },\n        {\n            \"claim-type\": \"individual-residence\",\n            \"claim-data\": {\n                \"building-number\": \"{{$randomInt}}\",\n                \"street-name\": \"{{$randomStreetName}}\",\n                \"city\": \"{{$randomCity}}\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        },\n        {\n            \"claim-type\": \"individual-identity\",\n            \"claim-data\": {\n                \"date-of-birth\": \"{{date-of-birth}}\",\n                \"given-name\": \"{{given-name}}\",\n                \"surname\": \"{{surname}}\"\n            }\n        }\n    ]\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{organization-individuals-url}}",
+											"host": [
+												"{{base-url}}{{organization-individuals-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create sole trader",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.globals.set(\"given-name\", pm.variables.replaceIn('{{$randomFirstName}}'));",
+													"pm.globals.set(\"surname\", pm.variables.replaceIn('{{$randomLastName}}'));",
+													"console.log(\"foo\", pm.variables.replaceIn('{{$randomDatePast'))",
+													"const date = new Date(pm.variables.replaceIn('{{$randomDatePast}}'))",
+													"pm.globals.set(\"date-of-birth\", date.toISOString().split(\"T\")[0]) // FIXME"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set(\"individual-legal-person-url\", pm.environment.get(\"legal-person-url\"));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"display-name\": \"{{given-name}} {{surname}}\",\n    \"claims\": [\n        {\n            \"claim-type\": \"contact-details\",\n            \"claim-data\": {\n                \"email-address\": \"{{$randomExampleEmail}}\"\n            }\n        },\n        {\n            \"claim-type\": \"individual-residence\",\n            \"claim-data\": {\n                \"building-number\": \"{{$randomInt}}\",\n                \"street-name\": \"{{$randomStreetName}}\",\n                \"city\": \"{{$randomCity}}\",\n                \"postal-code\": \"TE1 2ST\",\n                \"country-code\": \"GB\"\n            }\n        },\n        {\n            \"claim-type\": \"individual-identity\",\n            \"claim-data\": {\n                \"date-of-birth\": \"{{date-of-birth}}\",\n                \"given-name\": \"{{given-name}}\",\n                \"surname\": \"{{surname}}\"\n            }\n        },\n        {\n            \"claim-type\": \"sole-trader\",\n            \"claim-data\": {\n                \"trading-name\": \"{{$randomCompanyName}}\",\n                \"trading-address\": {\n                    \"building-number\": \"{{$randomInt}}\",\n                    \"street-name\": \"{{$randomStreetName}}\",\n                    \"city\": \"{{$randomCity}}\",\n                    \"postal-code\": \"TE1 2ST\",\n                    \"country-code\": \"GB\"\n                }\n            }\n        }\n    ]\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -515,6 +562,29 @@
 											"raw": "{{base-url}}{{claim-residence-url}}",
 											"host": [
 												"{{base-url}}{{claim-residence-url}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Claim sole trader",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n     \"trading-name\": \"{{$randomCompanyName}}\",\n     \"trading-address\": {\n         \"building-number\": \"{{$randomInt}}\",\n         \"street-name\": \"{{$randomStreetName}}\",\n         \"city\": \"{{$randomCity}}\",\n         \"postal-code\": \"TE1 2ST\",\n         \"country-code\": \"GB\"\n         }\n\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{base-url}}{{claim-sole-trader-url}}",
+											"host": [
+												"{{base-url}}{{claim-sole-trader-url}}"
 											]
 										}
 									},
