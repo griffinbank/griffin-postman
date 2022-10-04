@@ -1,6 +1,8 @@
 ## Griffin API Postman Collection
 
-This is a postman collection covering the Griffin API. See https://docs.griffin.sh/ for more details.
+⛔️ DEPRECATED ⛔️
+
+This repository is no longer the source of truth for our public postman collection. Please see the collection directly on [postman](https://www.postman.com/griffin-bank/workspace/griffin-api/overview)
 
 ## Getting started
 
